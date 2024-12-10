@@ -36,9 +36,9 @@ stages:
     jobs:
       - job: UAT_Deploy
         steps:
-          - script: Echo "UAT Deploy"
+          - script: echo "UAT Deploy"
       - job: Production_Deploy
         steps:
-          - script: Echo "Production Deploy"
+          - script: echo "Production Deploy"
 
 
