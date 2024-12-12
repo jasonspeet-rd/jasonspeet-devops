@@ -60,7 +60,7 @@ stages:
                     "artifacts": [
                     {
                         "name": "Jason-artifact.war",
-                        "repositoryName": "Jason art repo",
+                        "repositoryName": "PL 1 Repo",
                         "version": "1.$(build.buildId)",
                         "currentBuildInfo": "true"
                     }]
