@@ -23,6 +23,20 @@ stages:
       - job: Build
         steps:
           - script: echo "Build"
+          - task: ServiceNow-DevOps-Agent-Artifact-Registration@1
+            inputs:
+              connectedServiceName: 'dev262946-Jason Speet DevOps Sim-ServiceNow DevOps Service Connection'
+              artifactsPayload: |
+                {
+                  "artifacts": [
+                      {
+                        "name": "Jason-artifact.war",
+                        "version": "1.$(Build.BuildId)",
+                        "semanticVersion": "1.$(Build.BuildId).0",
+                        "repositoryName": "Jason art repo"
+                      }
+                  ]
+                }
   - stage: Test
     jobs:
       - job: Unit_Tests
