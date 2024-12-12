@@ -33,7 +33,7 @@ stages:
                         "name": "Jason-artifact.war",
                         "version": "1.$(Build.BuildId)",
                         "semanticVersion": "1.$(Build.BuildId).0",
-                        "repositoryName": "Jason art repo"
+                        "repositoryName": "
                       }
                   ]
                 }
@@ -51,6 +51,21 @@ stages:
       - job: UAT_Deploy
         steps:
           - script: echo "UAT Deploy"
+          - task: ServiceNow-DevOps-Agent-Package-Registration@1
+            inputs:
+              connectedServiceName: 'dev262946-Jason Speet DevOps Sim-ServiceNow DevOps Service Connection'
+              packageName: 'PL1 art package'
+              artifactsPayload: |
+                {
+                    "artifacts": [
+                    {
+                        "name": "Jason-artifact.war",
+                        "repositoryName": "Jason art repo",
+                        "version": "1.$(build.buildId)",
+                        "currentBuildInfo": "true"
+                    }]
+                }"
+
       - job: Production_Deploy
         dependsOn: UAT_Deploy
         steps:
