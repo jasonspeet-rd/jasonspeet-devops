@@ -42,6 +42,15 @@ stages:
       - job: Unit_Tests
         steps:
           - script: echo "Unit Tests"
+          - task: CmdLine@2
+            inputs:
+              script: |
+                cred=${SN_DEVOPS_USERNAME}:${SN_DEVOPS_PW}
+                NOW=$(date +"%Y-%m-%dT%TZ")
+                testPayload='{"name":"Test-summary-1.$(Build.BuildId).0","duration":0.0,"passedTests":10,"failedTests":1,"skippedTests":0,"blockedTests":0,"totalTests":11,"startTime":"'$NOW'","finishTime":"'$NOW'","artifacts":[{"name":"jon-devops.war","version":"1.$(Build.BuildId)"}]}'
+                echo $testPayload
+                curl -X POST -H 'Content-Type: application/json' -u $cred  -d $testPayload 'https://dev262946.service-now.com/api/sn_devops/v1/devops/tool/test?toolId=ed25c680c3e292108d0a921ed4013103&testType=User%20Acceptance'
+
       - job: Checkmarx_Scan
         dependsOn: Unit_Tests
         steps:
