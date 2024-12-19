@@ -55,6 +55,10 @@ stages:
         dependsOn: Unit_Tests
         steps:
           - script: echo "CheckMarx Scan"
+          - task: ServiceNow-DevOps-Agent-Job-Notification@1
+            inputs:
+              connectedServiceName: 'dev262946-Jason Speet DevOps Sim-ServiceNow DevOps Service Connection'
+              Phase: 'COMPLETED'
   - stage: Deploy
     jobs:
       - job: UAT_Deploy
