@@ -55,10 +55,15 @@ stages:
         dependsOn: Unit_Tests
         steps:
           - script: echo "CheckMarx Scan"
-          - task: ServiceNow-DevOps-Agent-Job-Notification@1
+          - task: CmdLine@2
             inputs:
-              connectedServiceName: 'dev262946-Jason Speet DevOps Sim-ServiceNow DevOps Service Connection'
-              Phase: 'COMPLETED'
+              script: |
+                cred=${SN_DEVOPS_USERNAME}:${SN_DEVOPS_PW}
+                NOW=$(date +"%Y-%m-%dT%TZ")
+                testPayload='{"name":"Test-summary-1.$(Build.BuildId).0","duration":0.0,"passedTests":10,"failedTests":1,"skippedTests":0,"blockedTests":0,"totalTests":11,"startTime":"'$NOW'","finishTime":"'$NOW'","artifacts":[{"name":"Jason-artifact.war","version":"1.$(Build.BuildId)"}]}'
+                echo $testPayload
+                curl -X POST -H 'Content-Type: application/json' -u $cred  -d $testPayload 'https://dev262946.service-now.com/api/sn_devops/v1/devops/tool/test?toolId=234fe1d6c32212108d0a921ed401312f&testType=User%20Acceptance'
+
   - stage: Deploy
     jobs:
       - job: UAT_Deploy
