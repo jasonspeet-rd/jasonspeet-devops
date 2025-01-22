@@ -1,0 +1,23 @@
+name: ServiceNow Integration
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-change-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Change Request in ServiceNow
+        run: |
+          curl -X POST "https://dev262946.service-now.com/api/now/table/change_request" \
+          --user 'devops.integration.user:czW4WmUR.Num-L*GWIB8i3{=c+}D4xN]1^>2SN(-E035?por(nr0eO(bu#iiB<_V+@q*0f!i{g@(1xF4][-2OKiXL9jc{rj^[g6W' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{
+            "short_description": "Change request from GitHub Actions",
+            "description": "This change request was created automatically by GitHub Actions."
+          }'
